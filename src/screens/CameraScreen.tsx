@@ -2,9 +2,9 @@ import { useIsFocused } from '@react-navigation/core';
 import { StackNavigationProp } from '@react-navigation/stack';
 import { Camera } from 'expo-camera';
 import React, { useCallback, useRef } from 'react';
-import { StyleSheet, View, Text, Button } from 'react-native';
+import { StyleSheet, View, Button } from 'react-native';
 import { RootStackParamList } from '../navigation';
-import { useStoreContext, IImage, randomId } from '../services';
+import { useStoreContext, randomId } from '../services';
 
 type CameraScreenNavigationProp = StackNavigationProp<
   RootStackParamList,
@@ -38,9 +38,6 @@ export function CameraScreen({ navigation }: { navigation: CameraScreenNavigatio
 }
 
 const styles = StyleSheet.create({
-  imageContainer: {
-    flex: 1,
-  },
   cameraContainer: {
     flex: 1,
     backgroundColor: '#fff',
