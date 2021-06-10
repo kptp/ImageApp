@@ -10,16 +10,6 @@ type ImageScreenRouteProp = RouteProp<
   'Image'
 >;
 
-function TopOverlay() {
-  return (
-    <View style={{ width: "100%", position: "absolute", top: 0, left: 0 }}>
-      <View style={{ backgroundColor: "#1115", height: 100, width: "100%" }} >
-        <Button title="Back" onPress={() => console.log("back") }/>
-      </View>
-    </View>
-  )
-}
-
 interface BottomOverlayProps {
   caption: string;
   editing: boolean;
@@ -70,7 +60,6 @@ export function ImageScreen({ route }: { route: ImageScreenRouteProp }) {
       </ImageZoom>
       { !fullScreen && (
         <React.Fragment>
-          <TopOverlay/>
           <BottomOverlay
             editing={editing}
             caption={caption}

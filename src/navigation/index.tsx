@@ -16,7 +16,7 @@ const RootStack = createStackNavigator<RootStackParamList>();
 
 function RootNavigator() {
   return (
-    <RootStack.Navigator initialRouteName="List" screenOptions={{ headerShown: false }}>
+    <RootStack.Navigator initialRouteName="List">
       <RootStack.Screen name="List" component={ListScreen} />
       <RootStack.Screen name="Image" component={ImageScreen} />
       <RootStack.Screen name="Camera" component={CameraScreen} />
