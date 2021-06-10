@@ -29,7 +29,7 @@ export function CameraScreen({ navigation }: { navigation: CameraScreenNavigatio
       { // We need to unmount the camera if focus is lost, otherwise it will use unnecessary resources
         // and cause bugs when returning from image preview
         isFocused &&
-        <Camera style={styles.camera} type={Camera.Constants.Type.front} ref={cameraRef} onMountError={(e) => console.log(e)}>
+        <Camera style={styles.camera} type={Camera.Constants.Type.back} ref={cameraRef} onMountError={(e) => console.log(e)}>
           <Button title={"Take pic"} onPress={takePicture}/>
         </Camera>
       }
