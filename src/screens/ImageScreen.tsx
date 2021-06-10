@@ -1,14 +1,10 @@
-import React, { useCallback, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { RouteProp } from '@react-navigation/native';
 import { StyleSheet, View, Image, Text, TextInput, Button, Dimensions } from 'react-native';
 import { RootStackParamList } from '../navigation';
 import { useStoreContext } from '../services';
 import ImageZoom from 'react-native-image-pan-zoom';
-
-type ImageScreenRouteProp = RouteProp<
-  RootStackParamList,
-  'Image'
->;
+import { StackScreenProps } from '@react-navigation/stack';
 
 interface BottomOverlayProps {
   caption: string;
@@ -35,7 +31,12 @@ function BottomOverlay({ editing, changeCaption, setCaption, startCaptionEdit, c
   )
 }
 
-export function ImageScreen({ route }: { route: ImageScreenRouteProp }) {
+type ImageScreenProps = StackScreenProps<
+  RootStackParamList,
+  'Image'
+>;
+
+export function ImageScreen({ route, navigation }: ImageScreenProps) {
   const store = useStoreContext();
   const { id } = route.params;
   const image = store.images[id];
@@ -46,7 +47,10 @@ export function ImageScreen({ route }: { route: ImageScreenRouteProp }) {
     store.setCaption(id, caption);
     setEditing(false);
   }, [setEditing, id, caption, store]);
-
+  const toggleFullscreen = useCallback(() => {
+    navigation.setOptions({ headerShown: fullScreen });
+    setFullscreen((state) => !state);
+  }, [setFullscreen, fullScreen]);
   return (
     <View style={styles.imageContainer}>
       <ImageZoom 
@@ -54,7 +58,7 @@ export function ImageScreen({ route }: { route: ImageScreenRouteProp }) {
         cropHeight={Dimensions.get('window').height}
         imageWidth={Dimensions.get('window').width}
         imageHeight={Dimensions.get('window').height}
-        onClick={() => setFullscreen((state) => !state)}
+        onClick={toggleFullscreen}
       >
         <Image source={{ uri: image.uri }} style={styles.image}/> 
       </ImageZoom>
