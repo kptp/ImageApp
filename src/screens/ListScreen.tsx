@@ -3,6 +3,7 @@ import { StackNavigationProp } from '@react-navigation/stack';
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { StyleSheet, View, Image, Button, Dimensions, Text } from 'react-native';
 import { FlatList, TouchableOpacity } from 'react-native-gesture-handler';
+import { ImageOverlay, ImageOverlayText } from '../components/ImageOverlay';
 import { RootStackParamList } from '../navigation';
 import { useStoreContext, IImage } from '../services';
 
@@ -10,7 +11,13 @@ const dateSort = (a: Date, b: Date) => {
   return b.getTime() - a.getTime();
 }
 
-function ImageGridPreviewComponent({ img, id, open }: { img: IImage, id: string, open: (id: string) => void }) {
+interface PreviewProps {
+  img: IImage,
+  id: string,
+  open: (id: string) => void,
+}
+
+function ImageGridPreviewComponent({ img, id, open }: PreviewProps) {
   const width = (Dimensions.get('window').width / 3);
   return (
     <TouchableOpacity onPress={() => open(id)} style={{ width: width, height: width }} >
@@ -19,14 +26,16 @@ function ImageGridPreviewComponent({ img, id, open }: { img: IImage, id: string,
   )
 }
 
-function ImageListPreviewComponent({ img, id, open }: { img: IImage, id: string, open: (id: string) => void }) {
+function ImageListPreviewComponent({ img, id, open }: PreviewProps) {
   const width = Dimensions.get('window').width;
   return (
     <TouchableOpacity onPress={() => open(id)} style={{ width: width, height: width }} >
       <Image source={{ uri: img.uri }} style={{ width: width - 2, height: width - 2, margin: 1 }} />
-      <View style={{ position: "absolute", bottom: 0, backgroundColor: "#0005", width: "100%" }}>
-        { img.caption && <Text style={{ color: "#fff", fontSize: 20, margin: 5 }}>{img.caption}</Text> }
-      </View>
+      { img.caption &&
+        <ImageOverlay>
+          <ImageOverlayText>{img.caption}</ImageOverlayText>
+        </ImageOverlay>
+      }
     </TouchableOpacity>
   )
 }
@@ -38,14 +47,16 @@ type ListScreenNavigationProp = StackNavigationProp<
 >;
 
 type ListType = "grid" | "list";
+
 export function ListScreen({ navigation }: { navigation: ListScreenNavigationProp }) {
   const store = useStoreContext();
+  const [listType, setListType] = useState<ListType>("grid")
   const open = useCallback((id: string) => navigation.navigate("Image", { id }), [navigation]);
   const images = useMemo(() => {
     return Object.entries(store.images) // Vaihda listan tyyppiä?
       .sort(([idA, a], [idB, b]) => dateSort(a.createdAt, b.createdAt))
   }, [store.images]);
-  const [listType, setListType] = useState<ListType>("grid")
+
   useEffect(() => {
     navigation.setOptions({
       headerRight: (props) => {
@@ -60,7 +71,8 @@ export function ListScreen({ navigation }: { navigation: ListScreenNavigationPro
         );
       }
     });
-  }, [listType])
+  }, [listType]);
+
   return (
     <View style={styles.imageContainer}>
       <FlatList

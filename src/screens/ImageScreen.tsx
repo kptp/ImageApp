@@ -1,10 +1,10 @@
-import React, { useCallback, useEffect, useState } from 'react';
-import { RouteProp } from '@react-navigation/native';
-import { StyleSheet, View, Image, Text, TextInput, Button, Dimensions } from 'react-native';
+import React, { useCallback, useState } from 'react';
+import { StyleSheet, View, Image, TextInput, Button, Dimensions } from 'react-native';
 import { RootStackParamList } from '../navigation';
 import { useStoreContext } from '../services';
 import ImageZoom from 'react-native-image-pan-zoom';
 import { StackScreenProps } from '@react-navigation/stack';
+import { ImageOverlay, ImageOverlayText, overlayStyles } from '../components/ImageOverlay';
 
 interface BottomOverlayProps {
   caption: string;
@@ -15,19 +15,19 @@ interface BottomOverlayProps {
 }
 function BottomOverlay({ editing, changeCaption, setCaption, startCaptionEdit, caption }: BottomOverlayProps) {
   return (
-    <View style={{ backgroundColor: "#1115", width: "100%", position: "absolute", bottom: 0, left: 0 }} >
+    <ImageOverlay >
       { editing ? (
         <React.Fragment>
-          <TextInput autoFocus multiline={true} style={styles.overlayText} value={caption} onChangeText={changeCaption}/>
+          <TextInput autoFocus multiline={true} style={overlayStyles.overlayText} value={caption} onChangeText={changeCaption}/>
           <Button title={"Done"} onPress={setCaption} />
         </React.Fragment>
        ) : (
         <React.Fragment>
-          { !!caption && <Text style={styles.overlayText}>{ caption }</Text> }
+          { !!caption && <ImageOverlayText style={styles.overlayText}>{ caption }</ImageOverlayText> }
           <Button title={"Edit text"} onPress={startCaptionEdit} />
         </React.Fragment>
        )}
-    </View>
+    </ImageOverlay>
   )
 }
 
@@ -43,14 +43,17 @@ export function ImageScreen({ route, navigation }: ImageScreenProps) {
   const [editing, setEditing] = useState<boolean>(false);
   const [fullScreen, setFullscreen] = useState<boolean>(false);
   const [caption, setCaption] = useState(image.caption || "");
+
   const doneEditing = useCallback(() => {
     store.setCaption(id, caption);
     setEditing(false);
   }, [setEditing, id, caption, store]);
+
   const toggleFullscreen = useCallback(() => {
     navigation.setOptions({ headerShown: fullScreen });
     setFullscreen((state) => !state);
   }, [setFullscreen, fullScreen]);
+
   return (
     <View style={styles.imageContainer}>
       <ImageZoom 
@@ -63,15 +66,13 @@ export function ImageScreen({ route, navigation }: ImageScreenProps) {
         <Image source={{ uri: image.uri }} style={styles.image}/> 
       </ImageZoom>
       { !fullScreen && (
-        <React.Fragment>
-          <BottomOverlay
-            editing={editing}
-            caption={caption}
-            setCaption={doneEditing}
-            changeCaption={setCaption}
-            startCaptionEdit={() => setEditing(true)}
-          />
-        </React.Fragment>
+        <BottomOverlay
+          editing={editing}
+          caption={caption}
+          setCaption={doneEditing}
+          changeCaption={setCaption}
+          startCaptionEdit={() => setEditing(true)}
+        />
       )}
     </View>
   );
