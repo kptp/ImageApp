@@ -1,11 +1,12 @@
-import React from "react";
+import React, { ReactNode } from "react";
 import { StyleSheet, View, Text, TextProps } from "react-native";
 
-export function ImageOverlayText(props: React.PropsWithChildren<TextProps>) {
-  return <Text {...props} style={[props.style, overlayStyles.overlayText]} />;
+export function ImageOverlayText({ style, ...props }: React.PropsWithChildren<TextProps>): React.ReactElement {
+  // eslint-disable-next-line react/jsx-props-no-spreading
+  return <Text {...props} style={[style, overlayStyles.overlayText]} />;
 }
 
-export function ImageOverlay({ children }: React.PropsWithChildren<{}>) {
+export function ImageOverlay({ children }: { children: ReactNode }): React.ReactElement {
   return <View style={overlayStyles.imageOverlay}>{children}</View>;
 }
 

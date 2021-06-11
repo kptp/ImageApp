@@ -1,16 +1,16 @@
-import React, { useState, useEffect, } from 'react';
-import { Text, View, } from 'react-native';
-import { Camera } from 'expo-camera';
-import { StoreProvider, } from './services';
-import Navigation from './navigation';
+import React, { useState, useEffect } from "react";
+import { Text, View } from "react-native";
+import { Camera } from "expo-camera";
+import { StoreProvider } from "./services";
+import Navigation from "./navigation";
 
-export default function App() {
+export default function App(): React.ReactElement {
   const [hasPermission, setHasPermission] = useState<boolean | null>(null);
 
   useEffect(() => {
     (async () => {
       const { status } = await Camera.requestPermissionsAsync();
-      setHasPermission(status === 'granted');
+      setHasPermission(status === "granted");
     })();
   }, []);
 

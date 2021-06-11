@@ -1,10 +1,10 @@
-import React, { useCallback, useState } from 'react';
-import { StyleSheet, View, Image, TextInput, Button, Dimensions } from 'react-native';
-import { RootStackParamList } from '../navigation';
-import { useStoreContext } from '../services';
-import ImageZoom from 'react-native-image-pan-zoom';
-import { StackScreenProps } from '@react-navigation/stack';
-import { ImageOverlay, ImageOverlayText, overlayStyles } from '../components/ImageOverlay';
+import React, { useCallback, useState } from "react";
+import { StyleSheet, View, Image, TextInput, Button, Dimensions } from "react-native";
+import ImageZoom from "react-native-image-pan-zoom";
+import { StackScreenProps } from "@react-navigation/stack";
+import { RootStackParamList } from "../navigation/types";
+import { useStoreContext } from "../services";
+import { ImageOverlay, ImageOverlayText, overlayStyles } from "../components/ImageOverlay";
 
 interface BottomOverlayProps {
   caption: string;
@@ -13,30 +13,39 @@ interface BottomOverlayProps {
   startCaptionEdit: () => void;
   setCaption: () => void;
 }
-function BottomOverlay({ editing, changeCaption, setCaption, startCaptionEdit, caption }: BottomOverlayProps) {
+function BottomOverlay({
+  editing,
+  changeCaption,
+  setCaption,
+  startCaptionEdit,
+  caption,
+}: BottomOverlayProps): React.ReactElement {
   return (
-    <ImageOverlay >
-      { editing ? (
-        <React.Fragment>
-          <TextInput autoFocus multiline={true} style={overlayStyles.overlayText} value={caption} onChangeText={changeCaption}/>
-          <Button title={"Done"} onPress={setCaption} />
-        </React.Fragment>
-       ) : (
-        <React.Fragment>
-          { !!caption && <ImageOverlayText style={styles.overlayText}>{ caption }</ImageOverlayText> }
-          <Button title={"Edit text"} onPress={startCaptionEdit} />
-        </React.Fragment>
-       )}
+    <ImageOverlay>
+      {editing ? (
+        <>
+          <TextInput
+            autoFocus
+            multiline
+            style={overlayStyles.overlayText}
+            value={caption}
+            onChangeText={changeCaption}
+          />
+          <Button title="Done" onPress={setCaption} />
+        </>
+      ) : (
+        <>
+          {!!caption && <ImageOverlayText style={styles.overlayText}>{caption}</ImageOverlayText>}
+          <Button title="Edit text" onPress={startCaptionEdit} />
+        </>
+      )}
     </ImageOverlay>
-  )
+  );
 }
 
-type ImageScreenProps = StackScreenProps<
-  RootStackParamList,
-  'Image'
->;
+type ImageScreenProps = StackScreenProps<RootStackParamList, "Image">;
 
-export function ImageScreen({ route, navigation }: ImageScreenProps) {
+export function ImageScreen({ route, navigation }: ImageScreenProps): React.ReactElement {
   const store = useStoreContext();
   const { id } = route.params;
   const image = store.images[id];
@@ -56,16 +65,16 @@ export function ImageScreen({ route, navigation }: ImageScreenProps) {
 
   return (
     <View style={styles.imageContainer}>
-      <ImageZoom 
-        cropWidth={Dimensions.get('window').width}
-        cropHeight={Dimensions.get('window').height}
-        imageWidth={Dimensions.get('window').width}
-        imageHeight={Dimensions.get('window').height}
+      <ImageZoom
+        cropWidth={Dimensions.get("window").width}
+        cropHeight={Dimensions.get("window").height}
+        imageWidth={Dimensions.get("window").width}
+        imageHeight={Dimensions.get("window").height}
         onClick={toggleFullscreen}
       >
-        <Image source={{ uri: image.uri }} style={styles.image}/> 
+        <Image source={{ uri: image.uri }} style={styles.image} />
       </ImageZoom>
-      { !fullScreen && (
+      {!fullScreen && (
         <BottomOverlay
           editing={editing}
           caption={caption}
@@ -84,8 +93,8 @@ const styles = StyleSheet.create({
     backgroundColor: "#000",
   },
   image: {
-    width: Dimensions.get('window').width,
-    height: Dimensions.get('window').height,
+    width: Dimensions.get("window").width,
+    height: Dimensions.get("window").height,
   },
   overlay: {
     position: "absolute",
@@ -99,5 +108,5 @@ const styles = StyleSheet.create({
     fontSize: 20,
     color: "#fff",
     margin: 5,
-  }
+  },
 });
