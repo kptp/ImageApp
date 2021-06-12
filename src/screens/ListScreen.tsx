@@ -6,7 +6,7 @@ import { FlatList, TouchableOpacity } from "react-native-gesture-handler";
 import { IconButton } from "../components/IconButton";
 import { ImageOverlay, ImageOverlayText } from "../components/ImageOverlay";
 import { RootStackParamList } from "../navigation/types";
-import { useStoreContext, IImage } from "../services";
+import { useStoreContext, IImage } from "../stores";
 
 const dateSort = (a: Date, b: Date) => b.getTime() - a.getTime();
 

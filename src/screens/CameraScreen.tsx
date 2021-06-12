@@ -5,7 +5,7 @@ import React, { useCallback, useRef } from "react";
 import { StyleSheet, View, Button, Dimensions } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { RootStackParamList } from "../navigation/types";
-import { useStoreContext, randomId } from "../services";
+import { useStoreContext, randomId } from "../stores";
 
 type CameraScreenNavigationProp = StackNavigationProp<RootStackParamList, "Camera">;
 

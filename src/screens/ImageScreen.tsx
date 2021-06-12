@@ -3,7 +3,7 @@ import { StyleSheet, View, Image, TextInput, Button, Dimensions, SafeAreaView } 
 import ImageZoom from "react-native-image-pan-zoom";
 import { StackScreenProps } from "@react-navigation/stack";
 import { RootStackParamList } from "../navigation/types";
-import { useStoreContext } from "../services";
+import { useStoreContext } from "../stores";
 import { ImageOverlay, ImageOverlayText, overlayStyles } from "../components/ImageOverlay";
 
 interface BottomOverlayProps {
