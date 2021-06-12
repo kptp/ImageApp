@@ -64,7 +64,7 @@ export function CameraScreen({ navigation }: { navigation: CameraScreenNavigatio
             </WithCameraPermission>
           )
         }
-        <Button title="Take pic" onPress={takePicture} />
+        <Button title="Take picture" onPress={takePicture} />
       </View>
     </SafeAreaView>
   );

@@ -35,8 +35,8 @@ function BottomOverlay({
         </>
       ) : (
         <>
-          {!!caption && <ImageOverlayText style={styles.overlayText}>{caption}</ImageOverlayText>}
-          <Button title="Edit text" onPress={startCaptionEdit} />
+          {!!caption && <ImageOverlayText>{caption}</ImageOverlayText>}
+          <Button title="Edit caption" onPress={startCaptionEdit} />
         </>
       )}
     </ImageOverlay>
