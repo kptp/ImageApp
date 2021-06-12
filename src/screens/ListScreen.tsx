@@ -1,8 +1,9 @@
 import { Fontisto } from "@expo/vector-icons";
 import { StackNavigationProp } from "@react-navigation/stack";
 import React, { useCallback, useEffect, useMemo, useState } from "react";
-import { StyleSheet, View, Image, Button, Dimensions } from "react-native";
+import { StyleSheet, View, Image, Dimensions } from "react-native";
 import { FlatList, TouchableOpacity } from "react-native-gesture-handler";
+import { IconButton } from "../components/IconButton";
 import { ImageOverlay, ImageOverlayText } from "../components/ImageOverlay";
 import { RootStackParamList } from "../navigation/types";
 import { useStoreContext, IImage } from "../services";
@@ -85,7 +86,7 @@ export function ListScreen({ navigation }: { navigation: ListScreenNavigationPro
         }}
         keyExtractor={([id]) => id}
       />
-      <Button title="Take image" onPress={() => navigation.navigate("Camera")} />
+      <IconButton icon="camera" onPress={() => navigation.navigate("Camera")} />
     </View>
   );
 }
