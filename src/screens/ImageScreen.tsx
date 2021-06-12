@@ -99,17 +99,4 @@ const styles = StyleSheet.create({
     width: "100%",
     height: "100%",
   },
-  overlay: {
-    position: "absolute",
-    bottom: 0,
-    left: 0,
-    padding: 10,
-    width: "100%",
-    backgroundColor: "#1115",
-  },
-  overlayText: {
-    fontSize: 20,
-    color: "#fff",
-    margin: 5,
-  },
 });
