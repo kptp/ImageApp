@@ -1,7 +1,7 @@
 import * as React from "react";
 import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator, StackNavigationOptions } from "@react-navigation/stack";
-import { StyleProp, View, ViewStyle } from "react-native";
+import { StyleProp, View, ViewStyle, StyleSheet } from "react-native";
 
 import { ListScreen } from "../screens/ListScreen";
 import { ImageScreen } from "../screens/ImageScreen";
@@ -13,7 +13,7 @@ const RootStack = createStackNavigator<RootStackParamList>();
 const transparentHeaderOptions: StackNavigationOptions = {
   headerTransparent: true,
   headerBackground: ({ style }: { style: StyleProp<ViewStyle> }) => (
-    <View style={[style, { backgroundColor: "#0009", width: "100%", height: "100%" }]} />
+    <View style={[style, styles.transparentHeaderBackground]} />
   ),
   headerTintColor: "#fff",
 };
@@ -35,3 +35,12 @@ export default function Navigation(): React.ReactElement {
     </NavigationContainer>
   );
 }
+
+const styles = StyleSheet.create({
+  transparentHeaderBackground: {
+    backgroundColor: "#0009",
+    width: "100%",
+    height: "100%",
+  },
+});
+

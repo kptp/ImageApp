@@ -47,9 +47,7 @@ export function ListScreen({ navigation }: { navigation: ListScreenNavigationPro
   const [listType, setListType] = useState<ListType>("grid");
   const open = useCallback((id: string) => navigation.navigate("Image", { id }), [navigation]);
   const images = useMemo(
-    () =>
-      Object.entries(store.images) // Vaihda listan tyyppiä?
-        .sort(([, a], [, b]) => dateSort(a.createdAt, b.createdAt)),
+    () => Object.entries(store.images).sort(([, a], [, b]) => dateSort(a.createdAt, b.createdAt)),
     [store.images]
   );
 
@@ -58,9 +56,9 @@ export function ListScreen({ navigation }: { navigation: ListScreenNavigationPro
       headerRight: () => (
         <TouchableOpacity onPress={() => setListType((state) => (state === "grid" ? "list" : "grid"))}>
           {listType === "grid" ? (
-            <Fontisto name="nav-icon" style={{ marginRight: 20, fontSize: 18 }} />
+            <Fontisto name="nav-icon" style={styles.headerIcon} />
           ) : (
-            <Fontisto name="nav-icon-grid" style={{ marginRight: 20, fontSize: 18 }} />
+            <Fontisto name="nav-icon-grid" style={styles.headerIcon} />
           )}
         </TouchableOpacity>
       ),
@@ -90,6 +88,10 @@ export function ListScreen({ navigation }: { navigation: ListScreenNavigationPro
 }
 
 const styles = StyleSheet.create({
+  headerIcon: {
+    marginRight: 20,
+    fontSize: 18,
+  },
   imageContainer: {
     flex: 1,
     backgroundColor: "#fff",
