@@ -69,7 +69,7 @@ export function ImageScreen({ route, navigation }: ImageScreenProps): React.Reac
         cropWidth={Dimensions.get("window").width}
         cropHeight={Dimensions.get("window").height}
         imageWidth={Dimensions.get("window").width}
-        imageHeight={Dimensions.get("window").height}
+        imageHeight={Dimensions.get("window").width / image.ratio}
         onClick={toggleFullscreen}
       >
         <Image source={{ uri: image.uri }} style={styles.image} />
@@ -93,8 +93,8 @@ const styles = StyleSheet.create({
     backgroundColor: "#000",
   },
   image: {
-    width: Dimensions.get("window").width,
-    height: Dimensions.get("window").height,
+    width: "100%",
+    height: "100%",
   },
   overlay: {
     position: "absolute",
