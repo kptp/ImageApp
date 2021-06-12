@@ -34,12 +34,14 @@ export function WithCameraPermission({ children }: { children: React.ReactElemen
 }
 
 export function CameraScreen({ navigation }: { navigation: CameraScreenNavigationProp }): React.ReactElement {
+  const [takingPic, setTakingPic] = useState(false);
   const store = useStoreContext();
   const isFocused = useIsFocused();
   const cameraRef = useRef<Camera>(null);
 
   const takePicture = useCallback(async () => {
     if (cameraRef.current) {
+      setTakingPic(true);
       const picture = await cameraRef.current.takePictureAsync();
       const id = randomId();
       store.addImage(id, {
@@ -50,6 +52,7 @@ export function CameraScreen({ navigation }: { navigation: CameraScreenNavigatio
         ratio: picture.width / picture.height,
       });
       navigation.navigate("Image", { id });
+      setTakingPic(false);
     }
   }, [cameraRef.current, store.addImage]);
   return (
@@ -64,7 +67,7 @@ export function CameraScreen({ navigation }: { navigation: CameraScreenNavigatio
             </WithCameraPermission>
           )
         }
-        <Button title="Take picture" onPress={takePicture} />
+        <Button disabled={takingPic} title="Take picture" onPress={takePicture} />
       </View>
     </SafeAreaView>
   );
