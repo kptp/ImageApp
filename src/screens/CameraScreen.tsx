@@ -16,7 +16,13 @@ export function CameraScreen({ navigation }: { navigation: CameraScreenNavigatio
     if (cameraRef.current) {
       const picture = await cameraRef.current.takePictureAsync();
       const id = randomId();
-      store.addImage(id, { uri: picture.uri, createdAt: new Date() });
+      store.addImage(id, {
+        uri: picture.uri,
+        createdAt: new Date(),
+        width: picture.width,
+        height: picture.height,
+        ratio: picture.width / picture.height,
+      });
       navigation.navigate("Image", { id });
     }
   }, [cameraRef.current, store.addImage]);

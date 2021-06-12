@@ -6,6 +6,9 @@ export interface IImage {
   uri: string;
   createdAt: Date;
   caption?: string;
+  width: number;
+  height: number;
+  ratio: number;
 }
 
 type Images = Record<string, IImage>;

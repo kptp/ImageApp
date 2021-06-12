@@ -18,7 +18,7 @@ interface PreviewProps {
 function ImageGridPreviewComponent({ img, id, open }: PreviewProps): React.ReactElement {
   const width = Dimensions.get("window").width / 3;
   return (
-    <TouchableOpacity onPress={() => open(id)} style={{ width, height: width }}>
+    <TouchableOpacity onPress={() => open(id)}>
       <Image source={{ uri: img.uri }} style={{ width: width - 2, height: width - 2, margin: 1 }} />
     </TouchableOpacity>
   );
@@ -27,8 +27,11 @@ function ImageGridPreviewComponent({ img, id, open }: PreviewProps): React.React
 function ImageListPreviewComponent({ img, id, open }: PreviewProps): React.ReactElement {
   const { width } = Dimensions.get("window");
   return (
-    <TouchableOpacity onPress={() => open(id)} style={{ width, height: width }}>
-      <Image source={{ uri: img.uri }} style={{ width: width - 2, height: width - 2, margin: 1 }} />
+    <TouchableOpacity onPress={() => open(id)}>
+      <Image
+        source={{ uri: img.uri }}
+        style={{ width: width - 2, height: undefined, aspectRatio: img.ratio, margin: 1 }}
+      />
       {img.caption && (
         <ImageOverlay>
           <ImageOverlayText>{img.caption}</ImageOverlayText>
