@@ -1,7 +1,7 @@
 import { Fontisto } from "@expo/vector-icons";
 import { StackNavigationProp } from "@react-navigation/stack";
 import React, { useCallback, useEffect, useMemo, useState } from "react";
-import { StyleSheet, View, Image, Dimensions } from "react-native";
+import { StyleSheet, View, Image, Dimensions, Text } from "react-native";
 import { FlatList, TouchableOpacity } from "react-native-gesture-handler";
 import { IconButton } from "../components/IconButton";
 import { ImageOverlay, ImageOverlayText } from "../components/ImageOverlay";
@@ -46,6 +46,14 @@ type ListScreenNavigationProp = StackNavigationProp<RootStackParamList, "List">;
 
 type ListType = "grid" | "list";
 
+function NoPictures(): React.ReactElement {
+  return (
+    <View style={styles.noPictures}>
+      <Text style={styles.noPicturesText}>No pictures found</Text>
+    </View>
+  );
+}
+
 export function ListScreen({ navigation }: { navigation: ListScreenNavigationProp }): React.ReactElement {
   const store = useStoreContext();
   const [listType, setListType] = useState<ListType>("grid");
@@ -71,21 +79,25 @@ export function ListScreen({ navigation }: { navigation: ListScreenNavigationPro
 
   return (
     <View style={styles.imageContainer}>
-      <FlatList
-        key={listType}
-        numColumns={listType === "grid" ? 3 : 1}
-        extraData={open}
-        data={images}
-        renderItem={(item) => {
-          const [id, img] = item.item;
-          return listType === "grid" ? (
-            <ImageGridPreviewComponent key={id} img={img} id={id} open={open} />
-          ) : (
-            <ImageListPreviewComponent key={id} img={img} id={id} open={open} />
-          );
-        }}
-        keyExtractor={([id]) => id}
-      />
+      {images.length > 0 ? (
+        <FlatList
+          key={listType}
+          numColumns={listType === "grid" ? 3 : 1}
+          extraData={open}
+          data={images}
+          renderItem={(item) => {
+            const [id, img] = item.item;
+            return listType === "grid" ? (
+              <ImageGridPreviewComponent key={id} img={img} id={id} open={open} />
+            ) : (
+              <ImageListPreviewComponent key={id} img={img} id={id} open={open} />
+            );
+          }}
+          keyExtractor={([id]) => id}
+        />
+      ) : (
+        <NoPictures />
+      )}
       <IconButton icon="camera" onPress={() => navigation.navigate("Camera")} />
     </View>
   );
@@ -107,5 +119,13 @@ const styles = StyleSheet.create({
     flexWrap: "wrap",
     alignItems: "flex-start",
     justifyContent: "flex-start",
+  },
+  noPictures: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  noPicturesText: {
+    fontSize: 20,
   },
 });
