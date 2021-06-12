@@ -2,7 +2,7 @@ import { Fontisto } from "@expo/vector-icons";
 import { StackNavigationProp } from "@react-navigation/stack";
 import React, { useCallback, useEffect, useMemo, useState } from "react";
 import { StyleSheet, View, Image, Dimensions, Text } from "react-native";
-import { FlatList, TouchableOpacity } from "react-native-gesture-handler";
+import { FlatList, TouchableHighlight, TouchableOpacity } from "react-native-gesture-handler";
 import { IconButton } from "../components/IconButton";
 import { ImageOverlay, ImageOverlayText } from "../components/ImageOverlay";
 import { RootStackParamList } from "../navigation/types";
@@ -19,26 +19,28 @@ interface PreviewProps {
 function ImageGridPreviewComponent({ img, id, open }: PreviewProps): React.ReactElement {
   const width = Dimensions.get("window").width / 3;
   return (
-    <TouchableOpacity onPress={() => open(id)}>
+    <TouchableHighlight onPress={() => open(id)}>
       <Image source={{ uri: img.uri }} style={{ width: width - 2, height: width - 2, margin: 1 }} />
-    </TouchableOpacity>
+    </TouchableHighlight>
   );
 }
 
 function ImageListPreviewComponent({ img, id, open }: PreviewProps): React.ReactElement {
   const { width } = Dimensions.get("window");
   return (
-    <TouchableOpacity onPress={() => open(id)}>
-      <Image
-        source={{ uri: img.uri }}
-        style={{ width: width - 2, height: undefined, aspectRatio: img.ratio, margin: 1 }}
-      />
-      {img.caption && (
-        <ImageOverlay>
-          <ImageOverlayText>{img.caption}</ImageOverlayText>
-        </ImageOverlay>
-      )}
-    </TouchableOpacity>
+    <TouchableHighlight onPress={() => open(id)}>
+      <View>
+        <Image
+          source={{ uri: img.uri }}
+          style={{ width: width - 2, height: undefined, aspectRatio: img.ratio, margin: 1 }}
+        />
+        {img.caption && (
+          <ImageOverlay>
+            <ImageOverlayText>{img.caption}</ImageOverlayText>
+          </ImageOverlay>
+        )}
+      </View>
+    </TouchableHighlight>
   );
 }
 
