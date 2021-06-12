@@ -1,5 +1,5 @@
 import React, { useCallback, useState } from "react";
-import { StyleSheet, View, Image, TextInput, Button, Dimensions } from "react-native";
+import { StyleSheet, View, Image, TextInput, Button, Dimensions, SafeAreaView } from "react-native";
 import ImageZoom from "react-native-image-pan-zoom";
 import { StackScreenProps } from "@react-navigation/stack";
 import { RootStackParamList } from "../navigation/types";
@@ -64,26 +64,28 @@ export function ImageScreen({ route, navigation }: ImageScreenProps): React.Reac
   }, [setFullscreen, fullScreen]);
 
   return (
-    <View style={styles.imageContainer}>
-      <ImageZoom
-        cropWidth={Dimensions.get("window").width}
-        cropHeight={Dimensions.get("window").height}
-        imageWidth={Dimensions.get("window").width}
-        imageHeight={Dimensions.get("window").width / image.ratio}
-        onClick={toggleFullscreen}
-      >
-        <Image source={{ uri: image.uri }} style={styles.image} />
-      </ImageZoom>
-      {!fullScreen && (
-        <BottomOverlay
-          editing={editing}
-          caption={caption}
-          setCaption={doneEditing}
-          changeCaption={setCaption}
-          startCaptionEdit={() => setEditing(true)}
-        />
-      )}
-    </View>
+    <SafeAreaView style={{ flex: 1 }}>
+      <View style={styles.imageContainer}>
+        <ImageZoom
+          cropWidth={Dimensions.get("window").width}
+          cropHeight={Dimensions.get("window").height}
+          imageWidth={Dimensions.get("window").width}
+          imageHeight={Dimensions.get("window").width / image.ratio}
+          onClick={toggleFullscreen}
+        >
+          <Image source={{ uri: image.uri }} style={styles.image} />
+        </ImageZoom>
+        {!fullScreen && (
+          <BottomOverlay
+            editing={editing}
+            caption={caption}
+            setCaption={doneEditing}
+            changeCaption={setCaption}
+            startCaptionEdit={() => setEditing(true)}
+          />
+        )}
+      </View>
+    </SafeAreaView>
   );
 }
 
@@ -91,6 +93,7 @@ const styles = StyleSheet.create({
   imageContainer: {
     flex: 1,
     backgroundColor: "#000",
+    justifyContent: "center",
   },
   image: {
     width: "100%",
