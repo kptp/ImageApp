@@ -54,7 +54,7 @@ export function ImageScreen({ route, navigation }: ImageScreenProps): React.Reac
   const [caption, setCaption] = useState(image.caption || "");
 
   const doneEditing = useCallback(() => {
-    store.setCaption(id, caption);
+    store.setCaption(id, caption || undefined);
     setEditing(false);
   }, [setEditing, id, caption, store]);
 

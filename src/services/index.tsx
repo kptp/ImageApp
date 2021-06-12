@@ -16,7 +16,7 @@ type Images = Record<string, IImage>;
 export interface Store {
   images: Images;
   addImage: (id: string, img: IImage) => void;
-  setCaption: (id: string, caption: string) => void;
+  setCaption: (id: string, caption?: string) => void;
 }
 
 const defaultStore: Store = {
@@ -35,7 +35,7 @@ export function StoreProvider({ children }: { children: ReactNode }): React.Reac
     [setImages]
   );
   const setCaption = useCallback(
-    (id: string, caption: string) => setImages((state) => ({ ...state, [id]: { ...state[id], caption } })),
+    (id: string, caption?: string) => setImages((state) => ({ ...state, [id]: { ...state[id], caption } })),
     [setImages]
   );
 
